@@ -10,6 +10,7 @@ impl Lint for EqEqEq {
 }
 impl Visit for EqEqEq {
     fn visit_bin_expr(&mut self, n: &swc_ecma_ast::BinExpr) {
+        swc_ecma_visit::visit_bin_expr(self, n);
         println!("!")
     }
 }

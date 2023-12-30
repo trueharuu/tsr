@@ -1,0 +1,67 @@
+[src\main.rs:38:9] &i = Stmt(
+    Expr(
+        ExprStmt {
+            span: Span {
+                lo: BytePos(
+                    1,
+                ),
+                hi: BytePos(
+                    8,
+                ),
+                ctxt: #0,
+            },
+            expr: Bin(
+                BinExpr {
+                    span: Span {
+                        lo: BytePos(
+                            1,
+                        ),
+                        hi: BytePos(
+                            7,
+                        ),
+                        ctxt: #0,
+                    },
+                    op: "==",
+                    left: Lit(
+                        Num(
+                            Number {
+                                span: Span {
+                                    lo: BytePos(
+                                        1,
+                                    ),
+                                    hi: BytePos(
+                                        2,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: 1.0,
+                                raw: Some(
+                                    "1",
+                                ),
+                            },
+                        ),
+                    ),
+                    right: Lit(
+                        Num(
+                            Number {
+                                span: Span {
+                                    lo: BytePos(
+                                        6,
+                                    ),
+                                    hi: BytePos(
+                                        7,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: 1.0,
+                                raw: Some(
+                                    "1",
+                                ),
+                            },
+                        ),
+                    ),
+                },
+            ),
+        },
+    ),
+)

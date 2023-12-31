@@ -1,18 +1,21 @@
-#![feature(let_chains, specialization)] // wow
+#![feature(let_chains)] // wow
 pub mod common;
+pub mod ctx;
+pub mod levels;
 pub mod lint;
 pub mod program;
 pub mod rules;
 use std::path::Path;
 
-use lint::Lint;
+use ctx::Ctx;
+use levels::default_levels;
 use rules::lints;
 use swc_common::errors::{ColorConfig, Handler};
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
 use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::{Parser, StringInput, TsConfig};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::VisitWith;
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();
@@ -26,7 +29,7 @@ fn main() {
         None,
     );
 
-    let mut pr = Parser::new_from(lx);
+    let mut pr = Parser::new_from(lx.clone());
     for e in pr.take_errors() {
         e.into_diagnostic(&h).emit();
     }
@@ -36,7 +39,17 @@ fn main() {
         .map_err(|e| e.into_diagnostic(&h).emit())
         .unwrap();
 
-    for mut i in lints().into_iter() {
-        m.body.clone().fold_children_with(&mut *i);
+    let ctx = Ctx {
+        cm,
+        h,
+        fm: &fm,
+        lx,
+        pr,
+        lv: default_levels(),
+    };
+
+    for mut i in lints(ctx).into_iter() {
+        m.body.clone().visit_children_with(&mut *i);
     }
 }
+
